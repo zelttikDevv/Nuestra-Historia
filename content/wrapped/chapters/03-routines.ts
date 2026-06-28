@@ -21,7 +21,7 @@ export const wrappedChapterThree: WrappedSlide[] = [
     id: "good-morning",
     type: "highlight",
     title: "Todo comenzaba con",
-    value: "Buenos días ☀️",
+    value: "Buenos días.",
     description: "No era solamente un saludo.\nEra una forma de decir:\n'Ya estoy aquí contigo.'",
     emoji: "☀️",
     gradient: "gold"
@@ -30,7 +30,7 @@ export const wrappedChapterThree: WrappedSlide[] = [
     id: "good-night",
     type: "highlight",
     title: "Y casi siempre terminaba con",
-    value: "Buenas noches 🌙",
+    value: "Buenas noches.",
     description: "Porque incluso despedirse también era una manera de cuidarse.",
     emoji: "🌙",
     gradient: "night"
