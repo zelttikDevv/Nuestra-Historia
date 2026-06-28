@@ -39,6 +39,7 @@ export interface WrappedSlide {
 }
 
 export const wrapped: WrappedSlide[] = [
+  // === V1 ===
   {
     id: "cover",
     type: "cover",
@@ -91,7 +92,7 @@ export const wrapped: WrappedSlide[] = [
     id: "photos",
     type: "highlight",
     title: "Compartimos momentos",
-    value: "",
+    value: "📸",
     description: "Una foto siempre fue mucho más que una imagen.",
     gradient: "purple"
   },
@@ -118,6 +119,7 @@ export const wrapped: WrappedSlide[] = [
     subtitle: "Nos vemos en el próximo capítulo ❤️",
     gradient: "rose"
   },
+  // === V2 ===
   {
     id: "heartbeat",
     type: "text",
@@ -138,7 +140,7 @@ export const wrapped: WrappedSlide[] = [
     id: "goodnight",
     type: "highlight",
     title: "Y siempre terminaban con un",
-    value: "🌙 Buenas noches",
+    value: " Buenas noches",
     description: "Porque incluso despedirse también era una forma de quererse.",
     emoji: "🌙",
     gradient: "night"
@@ -196,7 +198,7 @@ export const wrapped: WrappedSlide[] = [
     subtitle: "Nos vemos en el próximo Wrapped ❤️",
     gradient: "night"
   },
-  // === NUEVAS ENTRADAS V3 ===
+  // === V3 ===
   {
     id: "chapter-one",
     type: "text",
