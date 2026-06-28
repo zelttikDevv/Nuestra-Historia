@@ -197,6 +197,184 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
         </motion.div>
       );
 
+    case 'timeline':
+      return (
+        <motion.div
+          className="text-center space-y-8 max-w-lg mx-auto"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          {slide.emoji && (
+            <motion.div variants={staggerItem} className="text-5xl">
+              {slide.emoji}
+            </motion.div>
+          )}
+          <motion.h2
+            variants={staggerItem}
+            className="text-3xl md:text-4xl font-light text-white leading-tight"
+          >
+            {slide.title}
+          </motion.h2>
+          {slide.items && slide.items.length > 0 ? (
+            <motion.div
+              variants={staggerItem}
+              className="space-y-4 text-left mt-8"
+            >
+              {slide.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-4 items-start border-l-2 border-white/20 pl-4"
+                >
+                  <div className="text-sm text-white/50 font-light whitespace-nowrap pt-1">
+                    {item.date}
+                  </div>
+                  <div className="text-base text-white/80 leading-relaxed">
+                    {item.text}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.p
+              variants={staggerItem}
+              className="text-base text-white/40 italic"
+            >
+              Contenido próximamente...
+            </motion.p>
+          )}
+        </motion.div>
+      );
+
+    case 'stat':
+      return (
+        <motion.div
+          className="text-center space-y-6"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          {slide.emoji && (
+            <motion.div variants={staggerItem} className="text-6xl">
+              {slide.emoji}
+            </motion.div>
+          )}
+          {slide.value && (
+            <motion.div
+              variants={staggerItem}
+              className="text-6xl md:text-8xl font-extralight text-white tracking-tight"
+            >
+              {slide.value}
+              {slide.suffix && (
+                <span className="text-3xl md:text-4xl text-white/60 ml-2">
+                  {slide.suffix}
+                </span>
+              )}
+            </motion.div>
+          )}
+          <motion.h2
+            variants={staggerItem}
+            className="text-xl md:text-2xl font-light text-white/80"
+          >
+            {slide.title}
+          </motion.h2>
+          {slide.description && (
+            <motion.p
+              variants={staggerItem}
+              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed"
+            >
+              {slide.description}
+            </motion.p>
+          )}
+        </motion.div>
+      );
+
+    case 'comparison':
+      return (
+        <motion.div
+          className="text-center space-y-8 max-w-2xl mx-auto w-full px-4"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          {slide.emoji && (
+            <motion.div variants={staggerItem} className="text-5xl">
+              {slide.emoji}
+            </motion.div>
+          )}
+          <motion.h2
+            variants={staggerItem}
+            className="text-3xl md:text-4xl font-light text-white leading-tight"
+          >
+            {slide.title}
+          </motion.h2>
+          {slide.left && slide.right ? (
+            <motion.div
+              variants={staggerItem}
+              className="grid grid-cols-2 gap-4 md:gap-6 mt-8"
+            >
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-3xl md:text-4xl font-light text-white mb-2">
+                  {slide.left.value}
+                </div>
+                <div className="text-sm text-white/60">{slide.left.label}</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-3xl md:text-4xl font-light text-white mb-2">
+                  {slide.right.value}
+                </div>
+                <div className="text-sm text-white/60">{slide.right.label}</div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.p
+              variants={staggerItem}
+              className="text-base text-white/40 italic"
+            >
+              Contenido próximamente...
+            </motion.p>
+          )}
+        </motion.div>
+      );
+
+    case 'counter':
+      return (
+        <motion.div
+          className="text-center space-y-6"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          {slide.emoji && (
+            <motion.div variants={staggerItem} className="text-6xl">
+              {slide.emoji}
+            </motion.div>
+          )}
+          {slide.value && (
+            <motion.div
+              variants={staggerItem}
+              className="text-7xl md:text-9xl font-extralight text-white tracking-tight"
+            >
+              {slide.value}
+            </motion.div>
+          )}
+          <motion.h2
+            variants={staggerItem}
+            className="text-2xl md:text-3xl font-light text-white/80 uppercase tracking-widest"
+          >
+            {slide.title}
+          </motion.h2>
+          {slide.description && (
+            <motion.p
+              variants={staggerItem}
+              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed"
+            >
+              {slide.description}
+            </motion.p>
+          )}
+        </motion.div>
+      );
+
     case 'ending':
       return (
         <motion.div
