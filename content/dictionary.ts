@@ -14,7 +14,9 @@ export interface DictionaryEntry {
     | "Viaje"
     | "Lugar"
     | "WhatsApp"
-    | "Historia";
+    | "Historia"
+    | "Audio"
+    | "Comida";
   definition: string;
   origin: string;
   story: string;
@@ -163,7 +165,6 @@ export const dictionary: DictionaryEntry[] = [
     favorite: true,
     tags: ["emoji", "sarcasmo"]
   },
-  // === NUEVAS ENTRADAS V2 ===
   {
     id: "ya-llegaste",
     word: "¿Ya llegaste?",
@@ -358,5 +359,331 @@ export const dictionary: DictionaryEntry[] = [
     importance: 5,
     favorite: true,
     tags: ["historia", "relación"]
+  },
+  // === NUEVAS ENTRADAS V3 ===
+  {
+    id: "te-extrano",
+    word: "Te extraño",
+    category: "Cariño",
+    definition: "Forma de acortar cualquier distancia.",
+    origin: "Aparecía incluso después de pocas horas.",
+    story: "No siempre hablaba de kilómetros; muchas veces hablaba de ganas.",
+    usage: "Ya te extraño ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["amor", "distancia"]
+  },
+  {
+    id: "ya-despertaste",
+    word: "¿Ya despertaste?",
+    category: "Rutina",
+    definition: "La primera misión del día: saber si el otro ya estaba despierto.",
+    origin: "Se volvió parte de todas las mañanas.",
+    story: "Muchos días comenzaban exactamente con esa pregunta.",
+    usage: "¿Ya despertaste? ☀️",
+    emotion: "🥹",
+    importance: 4,
+    favorite: false,
+    tags: ["mañanas"]
+  },
+  {
+    id: "bebito",
+    word: "Bebito",
+    category: "Apodo",
+    definition: "Apodo cariñoso utilizado en momentos tiernos.",
+    origin: "Nació naturalmente entre conversaciones.",
+    story: "Con el tiempo se volvió una forma muy dulce de llamarse.",
+    usage: "Buenos días, bebito ❤️",
+    emotion: "❤️",
+    importance: 4,
+    favorite: true,
+    tags: ["apodo"]
+  },
+  {
+    id: "amorcito",
+    word: "Amorcito",
+    category: "Apodo",
+    definition: "Uno de los nombres más especiales entre ustedes.",
+    origin: "Con el tiempo sustituyó muchas veces el nombre real.",
+    story: "Decir 'Amorcito' siempre tenía un tono diferente.",
+    usage: "¿Cómo estás, Amorcito?",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["amor", "apodo"]
+  },
+  {
+    id: "dramatico",
+    word: "Drama",
+    category: "Broma",
+    definition: "Exagerar una situación únicamente para hacer reír al otro.",
+    origin: "Ambos aprendieron a jugar con el drama.",
+    story: "Mientras más absurdo era el drama, mejor funcionaba.",
+    usage: "Ya empezó el drama 🙄",
+    emotion: "😂",
+    importance: 3,
+    favorite: false,
+    tags: ["humor"]
+  },
+  {
+    id: "audio-largo",
+    word: "Audio eterno",
+    category: "Audio",
+    definition: "Ese audio que dura tanto que parece podcast.",
+    origin: "Cuando escribir ya no era suficiente.",
+    story: "Algunas historias necesitaban escucharse.",
+    usage: "Prepárate para este audio 😂",
+    emotion: "🥹",
+    importance: 3,
+    favorite: false,
+    tags: ["audio"]
+  },
+  {
+    id: "sticker",
+    word: "Sticker",
+    category: "WhatsApp",
+    definition: "Respuesta completa sin escribir una sola palabra.",
+    origin: "Con el tiempo sustituyó mensajes enteros.",
+    story: "Había stickers para absolutamente todo.",
+    usage: "*envía sticker*",
+    emotion: "😂",
+    importance: 4,
+    favorite: false,
+    tags: ["whatsapp"]
+  },
+  {
+    id: "te-cuido",
+    word: "Cuídate",
+    category: "Cariño",
+    definition: "Despedida cargada de preocupación bonita.",
+    origin: "Antes de salir o regresar.",
+    story: "Nunca era una palabra vacía.",
+    usage: "Cuídate mucho ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["cuidado"]
+  },
+  {
+    id: "maneja-con-cuidado",
+    word: "Maneja con cuidado",
+    category: "Cariño",
+    definition: "Recordatorio de regresar sano y salvo.",
+    origin: "Cada vez que alguno manejaba.",
+    story: "Una frase sencilla que escondía mucho amor.",
+    usage: "Maneja con cuidado ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["seguridad"]
+  },
+  {
+    id: "orgullo",
+    word: "Estoy orgulloso de ti",
+    category: "Cariño",
+    definition: "Reconocimiento sincero a los logros del otro.",
+    origin: "Aparecía después de metas importantes.",
+    story: "Una frase capaz de cambiar un día entero.",
+    usage: "Estoy muy orgulloso de ti ❤️",
+    emotion: "🥹",
+    importance: 5,
+    favorite: true,
+    tags: ["apoyo"]
+  },
+  {
+    id: "equipo",
+    word: "Nosotros",
+    category: "Historia",
+    definition: "El momento en que dejaron de pensar como dos personas separadas.",
+    origin: "Fue apareciendo poco a poco.",
+    story: "Sin darse cuenta empezaron a hablar como un equipo.",
+    usage: "Lo resolveremos nosotros.",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["historia"]
+  },
+  {
+    id: "foto-comida",
+    word: "Foto de comida",
+    category: "Comida",
+    definition: "Antes de comer había que presumirla.",
+    origin: "Tradición no escrita.",
+    story: "Era casi obligatorio.",
+    usage: "Espérame, primero la foto 😂",
+    emotion: "📸",
+    importance: 3,
+    favorite: false,
+    tags: ["comida"]
+  },
+  {
+    id: "te-espero",
+    word: "Te espero",
+    category: "Cariño",
+    definition: "Promesa silenciosa de permanecer ahí.",
+    origin: "Nació naturalmente.",
+    story: "Dos palabras con muchísimo peso.",
+    usage: "Aquí te espero ❤️",
+    emotion: "🥹",
+    importance: 4,
+    favorite: true,
+    tags: ["amor"]
+  },
+  {
+    id: "buen-provecho",
+    word: "Buen provecho",
+    category: "Costumbre",
+    definition: "Nunca faltaba antes de comer.",
+    origin: "Pequeños detalles diarios.",
+    story: "Otra forma de cuidar.",
+    usage: "Buen provecho ❤️",
+    emotion: "🥹",
+    importance: 3,
+    favorite: false,
+    tags: ["comida"]
+  },
+  {
+    id: "videollamada",
+    word: "Videollamada",
+    category: "Historia",
+    definition: "Cuando escribir ya no era suficiente.",
+    origin: "Aparecieron para sentirse más cerca.",
+    story: "Las llamadas también construyen recuerdos.",
+    usage: "¿Hacemos videollamada?",
+    emotion: "❤️",
+    importance: 4,
+    favorite: false,
+    tags: ["llamadas"]
+  },
+  {
+    id: "tecuento",
+    word: "Te cuento algo",
+    category: "Costumbre",
+    definition: "Introducción oficial antes de cualquier historia.",
+    origin: "Así empezaban muchas conversaciones.",
+    story: "Siempre valía la pena escuchar lo que seguía.",
+    usage: "Te cuento algo...",
+    emotion: "🥹",
+    importance: 3,
+    favorite: false,
+    tags: ["diario"]
+  },
+  {
+    id: "jajaja",
+    word: "Jajajaja",
+    category: "Expresión",
+    definition: "La banda sonora oficial del chat.",
+    origin: "Prácticamente presente todos los días.",
+    story: "Las risas fueron construyendo la relación.",
+    usage: "JAJAJAJAJA",
+    emotion: "😂",
+    importance: 5,
+    favorite: false,
+    tags: ["humor"]
+  },
+  {
+    id: "feliz",
+    word: "Hazme feliz",
+    category: "Cariño",
+    definition: "Compartir un momento bonito con el otro.",
+    origin: "No siempre se decía literalmente.",
+    story: "Muchas acciones significaban exactamente eso.",
+    usage: "Ven conmigo ❤️",
+    emotion: "❤️",
+    importance: 4,
+    favorite: false,
+    tags: ["amor"]
+  },
+  {
+    id: "emoji-risa",
+    word: "😂",
+    category: "Emoji",
+    definition: "Emoji oficial de las conversaciones caóticas.",
+    origin: "Presente en miles de bromas.",
+    story: "Cuando aparecía, era imposible seguir serio.",
+    usage: "😂😂😂",
+    emotion: "😂",
+    importance: 3,
+    favorite: false,
+    tags: ["emoji"]
+  },
+  {
+    id: "siempre",
+    word: "Siempre",
+    category: "Historia",
+    definition: "Promesa de permanencia.",
+    origin: "Comenzó siendo una palabra y terminó siendo una intención.",
+    story: "No hablaba del tiempo, hablaba del compromiso.",
+    usage: "Siempre ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["promesa"]
+  },
+  {
+    id: "abrazo",
+    word: "Abrazo",
+    category: "Cariño",
+    definition: "La solución imaginaria para casi cualquier problema.",
+    origin: "Aparecía cuando no podían verse.",
+    story: "Muchas veces un mensaje intentaba convertirse en abrazo.",
+    usage: "Te mando un abrazo ❤️",
+    emotion: "🥹",
+    importance: 4,
+    favorite: true,
+    tags: ["amor"]
+  },
+  {
+    id: "tequierover",
+    word: "Quiero verte",
+    category: "Cariño",
+    definition: "Las ganas de convertir el chat en un encuentro.",
+    origin: "Después de varios días sin verse.",
+    story: "Una frase que siempre emocionaba.",
+    usage: "Ya quiero verte ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["amor"]
+  },
+  {
+    id: "emoji-corazones",
+    word: "🥹",
+    category: "Emoji",
+    definition: "Emoji oficial de los momentos tiernos.",
+    origin: "Comenzó apareciendo ocasionalmente.",
+    story: "Terminó representando exactamente cómo se sentían muchos momentos.",
+    usage: "🥹❤️",
+    emotion: "🥹",
+    importance: 4,
+    favorite: false,
+    tags: ["emoji"]
+  },
+  {
+    id: "existir-juntos",
+    word: "Compartir el día",
+    category: "Historia",
+    definition: "Hablar sin un tema importante, solo por el gusto de estar presentes.",
+    origin: "Sucedió naturalmente.",
+    story: "Ahí fue cuando la conversación dejó de ser novedad y se convirtió en hogar.",
+    usage: "¿Qué haces?",
+    emotion: "🥹",
+    importance: 5,
+    favorite: true,
+    tags: ["historia", "rutina"]
+  },
+  {
+    id: "hogar",
+    word: "Hogar",
+    category: "Historia",
+    definition: "La sensación de tranquilidad que encontraron el uno en el otro.",
+    origin: "No apareció de golpe; se construyó mensaje a mensaje.",
+    story: "El chat dejó de ser una aplicación y empezó a sentirse como un lugar seguro.",
+    usage: "Contigo me siento en casa ❤️",
+    emotion: "❤️",
+    importance: 5,
+    favorite: true,
+    tags: ["amor", "historia"]
   }
 ];
