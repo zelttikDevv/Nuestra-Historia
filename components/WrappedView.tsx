@@ -16,29 +16,6 @@ const gradientMap: Record<WrappedSlide['gradient'], string> = {
   night: 'linear-gradient(135deg, hsl(240 30% 20%) 0%, hsl(260 20% 10%) 100%)',
 };
 
-function ProgressBar({ total, current }: { total: number; current: number }) {
-  return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 p-4 pt-6">
-      {Array.from({ length: total }).map((_, i) => (
-        <div
-          key={i}
-          className="h-[3px] flex-1 rounded-full bg-white/20 overflow-hidden"
-        >
-          <motion.div
-            className="h-full bg-white/90 rounded-full"
-            initial={{ width: i < current ? '100%' : '0%' }}
-            animate={{ width: i <= current ? '100%' : '0%' }}
-            transition={{
-              duration: i === current ? 0.5 : 0,
-              ease: 'easeOut',
-            }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 const staggerContainer = {
   animate: {
     transition: {
@@ -57,6 +34,11 @@ const staggerItem = {
     transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+// Check if value starts with emoji
+function valueHasEmoji(value: string): boolean {
+  return /^[\p{Emoji_Presentation}\p{Emoji}]/u.test(value);
+}
 
 function ScreenContent({ slide }: { slide: WrappedSlide }) {
   switch (slide.type) {
@@ -129,6 +111,8 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
       );
 
     case 'highlight':
+      const hasValueEmoji = slide.value ? valueHasEmoji(slide.value) : false;
+      
       return (
         <motion.div
           className="text-center space-y-6"
@@ -136,7 +120,8 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
           initial="initial"
           animate="animate"
         >
-          {slide.emoji && (
+          {/* Only show emoji if value doesn't start with emoji */}
+          {slide.emoji && !hasValueEmoji && (
             <motion.div variants={staggerItem} className="text-6xl">
               {slide.emoji}
             </motion.div>
@@ -144,21 +129,21 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
           {slide.value && (
             <motion.div
               variants={staggerItem}
-              className="text-5xl md:text-7xl font-extralight text-white tracking-tight"
+              className="text-4xl md:text-6xl font-extralight text-white tracking-tight leading-tight"
             >
               {slide.value}
             </motion.div>
           )}
           <motion.h2
             variants={staggerItem}
-            className="text-2xl md:text-3xl font-light text-white"
+            className="text-xl md:text-2xl font-light text-white/80"
           >
             {slide.title}
           </motion.h2>
           {slide.description && (
             <motion.p
               variants={staggerItem}
-              className="text-base md:text-lg text-white/70 max-w-sm mx-auto leading-relaxed"
+              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed"
             >
               {slide.description}
             </motion.p>
@@ -270,7 +255,6 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
   }
 }
 
-// Story-style transition: fade + subtle zoom
 const slideVariants = {
   enter: (direction: number) => ({
     scale: 0.96,
@@ -343,7 +327,6 @@ export function WrappedView() {
     }
   }, [currentIndex]);
 
-  // Auto-advance timer
   useEffect(() => {
     clearTimers();
 
@@ -372,7 +355,6 @@ export function WrappedView() {
     return clearTimers;
   }, [currentIndex, isPlaying, totalSlides, goNext, clearTimers]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -394,7 +376,6 @@ export function WrappedView() {
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
-    // Pause on touch
     setIsPlaying(false);
   };
 
@@ -406,7 +387,6 @@ export function WrappedView() {
       if (deltaX > 0) goNext();
       else goPrev();
     }
-    // Resume after a brief pause
     setTimeout(() => {
       startTimeRef.current = Date.now() - progress * AUTO_ADVANCE_MS;
       setIsPlaying(true);
@@ -414,7 +394,6 @@ export function WrappedView() {
   };
 
   const handleTap = () => {
-    // Tap to pause/resume
     if (isPlaying) {
       setIsPlaying(false);
     } else {
@@ -453,7 +432,6 @@ export function WrappedView() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Dynamic background - smooth crossfade */}
       <AnimatePresence mode="sync">
         <motion.div
           key={`bg-${currentIndex}`}
@@ -466,7 +444,6 @@ export function WrappedView() {
         />
       </AnimatePresence>
 
-      {/* Progress bar with per-slide progress */}
       <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 p-4 pt-6">
         {Array.from({ length: totalSlides }).map((_, i) => (
           <div
@@ -486,7 +463,6 @@ export function WrappedView() {
         ))}
       </div>
 
-      {/* Back button */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -497,7 +473,6 @@ export function WrappedView() {
         <ArrowLeft className="w-5 h-5 text-white" />
       </button>
 
-      {/* Play/Pause button */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -517,12 +492,10 @@ export function WrappedView() {
         )}
       </button>
 
-      {/* Slide counter */}
       <div className="fixed top-7 right-6 z-50 text-white/60 text-sm font-light tabular-nums">
         {currentIndex + 1} / {totalSlides}
       </div>
 
-      {/* Slide content with story-style transition */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentSlide.id}
@@ -538,7 +511,6 @@ export function WrappedView() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation arrows (desktop only) */}
       {currentIndex > 0 && (
         <button
           onClick={(e) => {
@@ -562,7 +534,6 @@ export function WrappedView() {
         </button>
       )}
 
-      {/* Tap hint on first slide */}
       {currentIndex === 0 && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -575,4 +546,4 @@ export function WrappedView() {
       )}
     </div>
   );
-            }
+  }
