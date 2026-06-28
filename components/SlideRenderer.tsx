@@ -1,17 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { type WrappedSlide } from '@/content/wrapped';
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.2,
-    },
-  },
-};
-
+// Variantes base para los elementos internos (texto, emojis, etc.)
 const staggerItem = {
   initial: { opacity: 0, y: 12, filter: 'blur(4px)' },
   animate: {
@@ -19,6 +11,48 @@ const staggerItem = {
     y: 0,
     filter: 'blur(0px)',
     transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// Mapa de animaciones para el contenedor principal de cada slide
+const animationVariants: Record<NonNullable<WrappedSlide['animation']>, Variants> = {
+  fade: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.8 } },
+  },
+  zoom: {
+    initial: { opacity: 0, scale: 0.9 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+  },
+  slideUp: {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+  },
+  parallax: {
+    initial: { opacity: 0, y: 40, scale: 1.05 },
+    animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } },
+  },
+  typewriter: {
+    initial: { opacity: 0, filter: 'blur(8px)' },
+    animate: { 
+      opacity: 1, 
+      filter: 'blur(0px)', 
+      transition: { 
+        staggerChildren: 0.15, 
+        delayChildren: 0.1,
+        duration: 0.8 
+      } 
+    },
+  },
+};
+
+// Contenedor por defecto (si no se especifica animation)
+const defaultContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.2,
+    },
   },
 };
 
@@ -31,12 +65,17 @@ interface SlideRendererProps {
 }
 
 export function SlideRenderer({ slide }: SlideRendererProps) {
+  // Determinar las variantes del contenedor según la animación solicitada
+  const containerVariants = slide.animation 
+    ? animationVariants[slide.animation] 
+    : defaultContainer;
+
   switch (slide.type) {
     case 'cover':
       return (
         <motion.div
           className="text-center space-y-6"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -66,7 +105,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-6 max-w-lg mx-auto"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -105,7 +144,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-6"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -144,7 +183,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-8 max-w-lg mx-auto"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -201,7 +240,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-8 max-w-lg mx-auto"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -250,7 +289,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-6"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -293,7 +332,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-8 max-w-2xl mx-auto w-full px-4"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -341,7 +380,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-6"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -379,7 +418,7 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return (
         <motion.div
           className="text-center space-y-8"
-          variants={staggerContainer}
+          variants={containerVariants}
           initial="initial"
           animate="animate"
         >
@@ -420,4 +459,4 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
         </div>
       );
   }
-              }
+          }
