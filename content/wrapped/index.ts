@@ -37,14 +37,15 @@ export interface WrappedSlide {
     | "blue"
     | "gold"
     | "night";
+  // Campos opcionales para nuevos tipos
   items?: TimelineItem[];
   left?: ComparisonBlock;
   right?: ComparisonBlock;
   suffix?: string;
+  // Nueva propiedad para animaciones por pantalla
+  animation?: "fade" | "zoom" | "slideUp" | "parallax" | "typewriter";
 }
 
-// El libro se ensambla capítulo a capítulo.
-// Para añadir un nuevo capítulo: crear el archivo en /chapters e importarlo aquí.
 export const wrapped: WrappedSlide[] = [
   ...wrappedChapterOne,
   ...wrappedChapterTwo,
