@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { wrapped, type WrappedSlide } from '@/content/wrapped';
+import { SlideRenderer } from '@/components/SlideRenderer';
 
 const AUTO_ADVANCE_MS = 6000;
 
@@ -16,247 +17,8 @@ const gradientMap: Record<WrappedSlide['gradient'], string> = {
   night: 'linear-gradient(135deg, hsl(240 30% 20%) 0%, hsl(260 20% 10%) 100%)',
 };
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const staggerItem = {
-  initial: { opacity: 0, y: 12, filter: 'blur(4px)' },
-  animate: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-// Check if value starts with emoji
-function valueHasEmoji(value: string): boolean {
-  return /^[\p{Emoji_Presentation}\p{Emoji}]/u.test(value);
-}
-
-function ScreenContent({ slide }: { slide: WrappedSlide }) {
-  switch (slide.type) {
-    case 'cover':
-      return (
-        <motion.div
-          className="text-center space-y-6"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {slide.emoji && (
-            <motion.div variants={staggerItem} className="text-7xl">
-              {slide.emoji}
-            </motion.div>
-          )}
-          <motion.h1
-            variants={staggerItem}
-            className="text-5xl md:text-6xl font-light text-white leading-tight tracking-tight"
-          >
-            {slide.title}
-          </motion.h1>
-          {slide.subtitle && (
-            <motion.p
-              variants={staggerItem}
-              className="text-lg md:text-xl text-white/70 max-w-md mx-auto leading-relaxed"
-            >
-              {slide.subtitle}
-            </motion.p>
-          )}
-        </motion.div>
-      );
-
-    case 'text':
-      return (
-        <motion.div
-          className="text-center space-y-6 max-w-lg mx-auto"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {slide.emoji && (
-            <motion.div variants={staggerItem} className="text-5xl">
-              {slide.emoji}
-            </motion.div>
-          )}
-          <motion.h2
-            variants={staggerItem}
-            className="text-3xl md:text-4xl font-light text-white leading-tight"
-          >
-            {slide.title}
-          </motion.h2>
-          {slide.description && (
-            <motion.p
-              variants={staggerItem}
-              className="text-base md:text-lg text-white/70 leading-relaxed whitespace-pre-line"
-            >
-              {slide.description}
-            </motion.p>
-          )}
-          {slide.subtitle && (
-            <motion.p
-              variants={staggerItem}
-              className="text-sm text-white/50 mt-4"
-            >
-              {slide.subtitle}
-            </motion.p>
-          )}
-        </motion.div>
-      );
-
-    case 'highlight':
-      const hasValueEmoji = slide.value ? valueHasEmoji(slide.value) : false;
-      
-      return (
-        <motion.div
-          className="text-center space-y-6"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {/* Only show emoji if value doesn't start with emoji */}
-          {slide.emoji && !hasValueEmoji && (
-            <motion.div variants={staggerItem} className="text-6xl">
-              {slide.emoji}
-            </motion.div>
-          )}
-          {slide.value && (
-            <motion.div
-              variants={staggerItem}
-              className="text-4xl md:text-6xl font-extralight text-white tracking-tight leading-tight"
-            >
-              {slide.value}
-            </motion.div>
-          )}
-          <motion.h2
-            variants={staggerItem}
-            className="text-xl md:text-2xl font-light text-white/80"
-          >
-            {slide.title}
-          </motion.h2>
-          {slide.description && (
-            <motion.p
-              variants={staggerItem}
-              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed"
-            >
-              {slide.description}
-            </motion.p>
-          )}
-        </motion.div>
-      );
-
-    case 'quote':
-      return (
-        <motion.div
-          className="text-center space-y-8 max-w-lg mx-auto"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {slide.emoji && (
-            <motion.div variants={staggerItem} className="text-5xl">
-              {slide.emoji}
-            </motion.div>
-          )}
-          <div className="space-y-4">
-            {slide.value ? (
-              <>
-                <motion.h3
-                  variants={staggerItem}
-                  className="text-xl md:text-2xl font-light text-white/80"
-                >
-                  {slide.title}
-                </motion.h3>
-                <motion.blockquote
-                  variants={staggerItem}
-                  className="text-3xl md:text-4xl font-light text-white leading-relaxed italic"
-                >
-                  &ldquo;{slide.value}&rdquo;
-                </motion.blockquote>
-              </>
-            ) : (
-              <motion.blockquote
-                variants={staggerItem}
-                className="text-3xl md:text-4xl font-light text-white leading-relaxed italic"
-              >
-                &ldquo;{slide.title}&rdquo;
-              </motion.blockquote>
-            )}
-            {slide.description && (
-              <motion.p
-                variants={staggerItem}
-                className="text-base text-white/60 whitespace-pre-line"
-              >
-                {slide.description}
-              </motion.p>
-            )}
-          </div>
-          {slide.subtitle && (
-            <motion.p
-              variants={staggerItem}
-              className="text-base text-white/60"
-            >
-              {slide.subtitle}
-            </motion.p>
-          )}
-        </motion.div>
-      );
-
-    case 'ending':
-      return (
-        <motion.div
-          className="text-center space-y-8"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {slide.emoji && (
-            <motion.div variants={staggerItem} className="text-7xl">
-              {slide.emoji}
-            </motion.div>
-          )}
-          <motion.h1
-            variants={staggerItem}
-            className="text-4xl md:text-5xl font-light text-white leading-tight tracking-tight"
-          >
-            {slide.title}
-          </motion.h1>
-          {slide.subtitle && (
-            <motion.p
-              variants={staggerItem}
-              className="text-lg md:text-xl text-white/70 max-w-md mx-auto leading-relaxed"
-            >
-              {slide.subtitle}
-            </motion.p>
-          )}
-          {slide.description && (
-            <motion.p
-              variants={staggerItem}
-              className="text-base text-white/60 max-w-sm mx-auto"
-            >
-              {slide.description}
-            </motion.p>
-          )}
-        </motion.div>
-      );
-
-    default:
-      return (
-        <div className="text-center">
-          <h2 className="text-3xl font-light text-white">{slide.title}</h2>
-        </div>
-      );
-  }
-}
-
 const slideVariants = {
-  enter: (direction: number) => ({
+  enter: () => ({
     scale: 0.96,
     opacity: 0,
     filter: 'blur(4px)',
@@ -271,7 +33,7 @@ const slideVariants = {
       filter: { duration: 0.5 },
     },
   },
-  exit: (direction: number) => ({
+  exit: () => ({
     scale: 1.04,
     opacity: 0,
     filter: 'blur(6px)',
@@ -291,7 +53,6 @@ export function WrappedView() {
   const [progress, setProgress] = useState(0);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
-  const timerRef = useRef<number | null>(null);
   const progressRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(Date.now());
 
@@ -299,10 +60,6 @@ export function WrappedView() {
   const currentSlide = wrapped[currentIndex];
 
   const clearTimers = useCallback(() => {
-    if (timerRef.current !== null) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
     if (progressRef.current !== null) {
       cancelAnimationFrame(progressRef.current);
       progressRef.current = null;
@@ -329,7 +86,6 @@ export function WrappedView() {
 
   useEffect(() => {
     clearTimers();
-
     if (!isPlaying) return;
 
     startTimeRef.current = Date.now();
@@ -351,7 +107,6 @@ export function WrappedView() {
     };
 
     progressRef.current = requestAnimationFrame(tick);
-
     return clearTimers;
   }, [currentIndex, isPlaying, totalSlides, goNext, clearTimers]);
 
@@ -432,6 +187,7 @@ export function WrappedView() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Background */}
       <AnimatePresence mode="sync">
         <motion.div
           key={`bg-${currentIndex}`}
@@ -444,6 +200,7 @@ export function WrappedView() {
         />
       </AnimatePresence>
 
+      {/* Progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 p-4 pt-6">
         {Array.from({ length: totalSlides }).map((_, i) => (
           <div
@@ -463,6 +220,7 @@ export function WrappedView() {
         ))}
       </div>
 
+      {/* Controls */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -496,6 +254,7 @@ export function WrappedView() {
         {currentIndex + 1} / {totalSlides}
       </div>
 
+      {/* Slide content */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentSlide.id}
@@ -507,10 +266,11 @@ export function WrappedView() {
           className="absolute inset-0 flex items-center justify-center p-8 px-6 pt-20 pb-24"
           onClick={handleTap}
         >
-          <ScreenContent slide={currentSlide} />
+          <SlideRenderer slide={currentSlide} />
         </motion.div>
       </AnimatePresence>
 
+      {/* Navigation arrows (desktop) */}
       {currentIndex > 0 && (
         <button
           onClick={(e) => {
@@ -546,4 +306,4 @@ export function WrappedView() {
       )}
     </div>
   );
-  }
+                                       }
