@@ -1,3 +1,13 @@
+export interface TimelineItem {
+  date: string;
+  text: string;
+}
+
+export interface ComparisonBlock {
+  label: string;
+  value: string;
+}
+
 export interface WrappedSlide {
   id: string;
   type:
@@ -5,6 +15,10 @@ export interface WrappedSlide {
     | "text"
     | "highlight"
     | "quote"
+    | "timeline"
+    | "stat"
+    | "comparison"
+    | "counter"
     | "ending";
   title: string;
   subtitle?: string;
@@ -17,6 +31,11 @@ export interface WrappedSlide {
     | "blue"
     | "gold"
     | "night";
+  // Campos opcionales para nuevos tipos
+  items?: TimelineItem[];
+  left?: ComparisonBlock;
+  right?: ComparisonBlock;
+  suffix?: string;
 }
 
 export const wrapped: WrappedSlide[] = [
