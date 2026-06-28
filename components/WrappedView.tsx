@@ -77,7 +77,7 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
         <div className="text-center space-y-6">
           {slide.emoji && <div className="text-6xl">{slide.emoji}</div>}
           {slide.value && (
-            <div className="text-7xl md:text-8xl font-extralight text-white tracking-tight">
+            <div className="text-5xl md:text-7xl font-extralight text-white tracking-tight">
               {slide.value}
             </div>
           )}
@@ -97,16 +97,24 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
         <div className="text-center space-y-8 max-w-lg mx-auto">
           {slide.emoji && <div className="text-5xl">{slide.emoji}</div>}
           <div className="space-y-4">
-            <h3 className="text-xl md:text-2xl font-light text-white/80">
-              {slide.title}
-            </h3>
-            {slide.value && (
+            {slide.value ? (
+              <>
+                <h3 className="text-xl md:text-2xl font-light text-white/80">
+                  {slide.title}
+                </h3>
+                <blockquote className="text-3xl md:text-4xl font-light text-white leading-relaxed italic">
+                  &ldquo;{slide.value}&rdquo;
+                </blockquote>
+              </>
+            ) : (
               <blockquote className="text-3xl md:text-4xl font-light text-white leading-relaxed italic">
-                &ldquo;{slide.value}&rdquo;
+                &ldquo;{slide.title}&rdquo;
               </blockquote>
             )}
             {slide.description && (
-              <p className="text-base text-white/60">{slide.description}</p>
+              <p className="text-base text-white/60 whitespace-pre-line">
+                {slide.description}
+              </p>
             )}
           </div>
           {slide.subtitle && (
@@ -336,4 +344,4 @@ export function WrappedView() {
       )}
     </div>
   );
-    }
+          }
