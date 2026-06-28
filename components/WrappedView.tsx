@@ -62,7 +62,7 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
             {slide.title}
           </h2>
           {slide.description && (
-            <p className="text-base md:text-lg text-white/70 leading-relaxed">
+            <p className="text-base md:text-lg text-white/70 leading-relaxed whitespace-pre-line">
               {slide.description}
             </p>
           )}
@@ -84,9 +84,9 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
           <h2 className="text-2xl md:text-3xl font-light text-white">
             {slide.title}
           </h2>
-          {slide.subtitle && (
+          {slide.description && (
             <p className="text-base md:text-lg text-white/70 max-w-sm mx-auto leading-relaxed">
-              {slide.subtitle}
+              {slide.description}
             </p>
           )}
         </div>
@@ -96,9 +96,19 @@ function ScreenContent({ slide }: { slide: WrappedSlide }) {
       return (
         <div className="text-center space-y-8 max-w-lg mx-auto">
           {slide.emoji && <div className="text-5xl">{slide.emoji}</div>}
-          <blockquote className="text-2xl md:text-3xl font-light text-white leading-relaxed italic">
-            &ldquo;{slide.title}&rdquo;
-          </blockquote>
+          <div className="space-y-4">
+            <h3 className="text-xl md:text-2xl font-light text-white/80">
+              {slide.title}
+            </h3>
+            {slide.value && (
+              <blockquote className="text-3xl md:text-4xl font-light text-white leading-relaxed italic">
+                &ldquo;{slide.value}&rdquo;
+              </blockquote>
+            )}
+            {slide.description && (
+              <p className="text-base text-white/60">{slide.description}</p>
+            )}
+          </div>
           {slide.subtitle && (
             <p className="text-base text-white/60">{slide.subtitle}</p>
           )}
@@ -326,4 +336,4 @@ export function WrappedView() {
       )}
     </div>
   );
-          }
+    }
