@@ -72,7 +72,7 @@ export const wrapped: WrappedSlide[] = [
     id: "photos",
     type: "highlight",
     title: "Compartimos momentos",
-    value: "📸",
+    value: "",
     description: "Una foto siempre fue mucho más que una imagen.",
     gradient: "purple"
   },
@@ -99,7 +99,6 @@ export const wrapped: WrappedSlide[] = [
     subtitle: "Nos vemos en el próximo capítulo ❤️",
     gradient: "rose"
   },
-  // === NUEVOS SLIDES V2 ===
   {
     id: "heartbeat",
     type: "text",
@@ -177,5 +176,83 @@ export const wrapped: WrappedSlide[] = [
     title: "Continuará...",
     subtitle: "Nos vemos en el próximo Wrapped ❤️",
     gradient: "night"
+  },
+  // === NUEVAS ENTRADAS V3 ===
+  {
+    id: "chapter-one",
+    type: "text",
+    title: "Sin darnos cuenta...",
+    description: "Una conversación comenzó a repetirse.\nY después otra.\nY otra más.",
+    gradient: "night"
+  },
+  {
+    id: "home",
+    type: "text",
+    title: "Hasta que pasó algo curioso.",
+    description: "Hablar dejó de ser una costumbre.\nSe convirtió en una necesidad bonita.",
+    gradient: "blue"
+  },
+  {
+    id: "language-two",
+    type: "highlight",
+    title: "Creamos algo que nadie más tiene.",
+    value: "Nuestro idioma",
+    description: "Palabras que para cualquiera serían normales, pero para nosotros cuentan una historia.",
+    emoji: "📖",
+    gradient: "purple"
+  },
+  {
+    id: "ordinary",
+    type: "text",
+    title: "Nunca buscamos momentos perfectos.",
+    description: "Descubrimos que los días comunes también podían ser inolvidables.",
+    gradient: "gold"
+  },
+  {
+    id: "care-two",
+    type: "quote",
+    title: "El cariño también se escribe.",
+    value: "¿Ya llegaste?",
+    description: "Hay preguntas que en realidad significan 'me importas'.",
+    gradient: "rose"
+  },
+  {
+    id: "team",
+    type: "highlight",
+    title: "Poco a poco",
+    value: "Dejó de ser 'yo'.",
+    description: "Y empezó a ser 'nosotros'.",
+    emoji: "❤️",
+    gradient: "blue"
+  },
+  {
+    id: "constancy",
+    type: "text",
+    title: "Nunca hizo falta un gran evento.",
+    description: "Los pequeños detalles fueron suficientes para construir algo enorme.",
+    gradient: "night"
+  },
+  {
+    id: "future-book",
+    type: "highlight",
+    title: "Todavía faltan muchos capítulos.",
+    value: "Y eso es lo emocionante.",
+    description: "Porque esta historia sigue escribiéndose todos los días.",
+    emoji: "📚",
+    gradient: "gold"
+  },
+  {
+    id: "pause",
+    type: "text",
+    title: "Haz una pausa.",
+    description: "Respira.\nPiensa en todo lo que hemos vivido hasta aquí.",
+    gradient: "purple"
+  },
+  {
+    id: "continue",
+    type: "ending",
+    title: "Aún queda mucho por descubrir...",
+    subtitle: "Desliza para seguir ❤️",
+    gradient: "rose"
   }
 ];
