@@ -65,7 +65,6 @@ interface SlideRendererProps {
 }
 
 export function SlideRenderer({ slide }: SlideRendererProps) {
-  // Determinar las variantes del contenedor según la animación solicitada
   const containerVariants = slide.animation 
     ? animationVariants[slide.animation] 
     : defaultContainer;
@@ -148,11 +147,20 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
           initial="initial"
           animate="animate"
         >
+          {/* 1. Emoji decorativo (si existe y no está dentro del value) */}
           {slide.emoji && !hasValueEmoji && (
             <motion.div variants={staggerItem} className="text-6xl">
               {slide.emoji}
             </motion.div>
           )}
+          {/* 2. Title: la intro narrativa (tamaño medio) */}
+          <motion.h2
+            variants={staggerItem}
+            className="text-xl md:text-2xl font-light text-white/80"
+          >
+            {slide.title}
+          </motion.h2>
+          {/* 3. Value: la frase destacada (tamaño grande) */}
           {slide.value && (
             <motion.div
               variants={staggerItem}
@@ -161,16 +169,11 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
               {slide.value}
             </motion.div>
           )}
-          <motion.h2
-            variants={staggerItem}
-            className="text-xl md:text-2xl font-light text-white/80"
-          >
-            {slide.title}
-          </motion.h2>
+          {/* 4. Description: el detalle (tamaño pequeño) */}
           {slide.description && (
             <motion.p
               variants={staggerItem}
-              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed"
+              className="text-base text-white/60 max-w-sm mx-auto leading-relaxed whitespace-pre-line"
             >
               {slide.description}
             </motion.p>
@@ -459,4 +462,4 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
         </div>
       );
   }
-          }
+                }
