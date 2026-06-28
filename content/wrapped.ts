@@ -98,5 +98,84 @@ export const wrapped: WrappedSlide[] = [
     title: "Y esto apenas comienza.",
     subtitle: "Nos vemos en el próximo capítulo ❤️",
     gradient: "rose"
+  },
+  // === NUEVOS SLIDES V2 ===
+  {
+    id: "heartbeat",
+    type: "text",
+    title: "No fueron los grandes momentos.",
+    description: "Fueron los pequeños.\nLos que se repetían todos los días.",
+    gradient: "night"
+  },
+  {
+    id: "goodmorning",
+    type: "highlight",
+    title: "Nuestro ritual favorito",
+    value: "☀️ Buenos días",
+    description: "Había días que empezaban mejor únicamente porque llegaba ese mensaje.",
+    emoji: "☀️",
+    gradient: "gold"
+  },
+  {
+    id: "goodnight",
+    type: "highlight",
+    title: "Y siempre terminaban con un",
+    value: "🌙 Buenas noches",
+    description: "Porque incluso despedirse también era una forma de quererse.",
+    emoji: "🌙",
+    gradient: "night"
+  },
+  {
+    id: "photos-memory",
+    type: "text",
+    title: "Cada foto tenía una misión.",
+    description: "No era presumir un lugar.\nEra invitar al otro a vivir ese momento.",
+    gradient: "purple"
+  },
+  {
+    id: "inside-jokes",
+    type: "highlight",
+    title: "Creamos bromas",
+    value: "Que nadie más entendería",
+    description: "Y eso las hizo todavía más especiales.",
+    emoji: "😂",
+    gradient: "blue"
+  },
+  {
+    id: "safe-place",
+    type: "text",
+    title: "Con el tiempo...",
+    description: "El chat dejó de ser una aplicación.\nSe convirtió en un lugar seguro.",
+    gradient: "rose"
+  },
+  {
+    id: "ordinary-days",
+    type: "text",
+    title: "Descubrimos algo importante.",
+    description: "Los días normales también pueden convertirse en recuerdos extraordinarios.",
+    gradient: "gold"
+  },
+  {
+    id: "future",
+    type: "highlight",
+    title: "Todavía quedan",
+    value: "Muchísimas páginas",
+    description: "Porque esta historia apenas comenzó a escribirse.",
+    emoji: "📖",
+    gradient: "purple"
+  },
+  {
+    id: "thankyou",
+    type: "quote",
+    title: "Gracias.",
+    description: "Por cada mensaje.\nCada audio.\nCada llamada.\nCada risa.\nCada momento.",
+    gradient: "rose"
+  },
+  {
+    id: "to-be-continued",
+    type: "ending",
+    title: "Continuará...",
+    subtitle: "Nos vemos en el próximo Wrapped ❤️",
+    gradient: "night"
   }
 ];
