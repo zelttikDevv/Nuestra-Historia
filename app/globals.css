@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 50% 98%;
+    --foreground: 20 20% 20%;
+    --card: 30 40% 96%;
+    --card-foreground: 20 20% 20%;
+    --primary: 350 60% 75%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 60% 85%;
+    --secondary-foreground: 20 20% 20%;
+    --muted: 30 30% 92%;
+    --muted-foreground: 20 10% 50%;
+    --accent: 340 50% 80%;
+    --accent-foreground: 20 20% 20%;
+    --border: 30 30% 90%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
