@@ -2,7 +2,8 @@ import { wrappedChapterOne } from './chapters/01-beginning';
 import { wrappedChapterTwo } from './chapters/02-language';
 import { wrappedChapterThree } from './chapters/03-routines';
 import { wrappedChapterFour } from './chapters/04-us';
-import { wrappedChapterFive } from './chapters/05-distance'; //  Actualizado
+import { wrappedChapterFive } from './chapters/05-distance';
+import { chapterInterludes } from './interludes';
 
 export interface TimelineItem {
   date: string;
@@ -44,7 +45,8 @@ export interface WrappedSlide {
   animation?: "fade" | "zoom" | "slideUp" | "parallax" | "typewriter";
 }
 
-// El libro se ensambla capítulo a capítulo.
+export { chapterInterludes };
+
 export const wrapped: WrappedSlide[] = [
   ...wrappedChapterOne,
   ...wrappedChapterTwo,
