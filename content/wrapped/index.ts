@@ -2,7 +2,7 @@ import { wrappedChapterOne } from './chapters/01-beginning';
 import { wrappedChapterTwo } from './chapters/02-language';
 import { wrappedChapterThree } from './chapters/03-routines';
 import { wrappedChapterFour } from './chapters/04-us';
-import { wrappedChapterFive } from './chapters/05-distance';
+import { wrappedChapterFive } from './chapters/05-stats';
 import { chapterInterludes } from './interludes';
 
 export interface TimelineItem {
@@ -37,7 +37,11 @@ export interface WrappedSlide {
     | "purple"
     | "blue"
     | "gold"
-    | "night";
+    | "night"
+    | "pink"
+    | "yellow"
+    | "green"
+    | "orange";
   items?: TimelineItem[];
   left?: ComparisonBlock;
   right?: ComparisonBlock;
