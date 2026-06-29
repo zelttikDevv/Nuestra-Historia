@@ -1,84 +1,91 @@
 import { type WrappedSlide } from '../index';
 
-// Capítulo V: Estar, incluso cuando había kilómetros de por medio.
+// Capítulo V: Compartir también era una forma de estar juntos.
 export const wrappedChapterFive: WrappedSlide[] = [
   {
     id: "distance-cover",
     type: "cover",
     title: "Capítulo V",
-    subtitle: "Estar, incluso cuando había kilómetros de por medio.",
+    subtitle: "Compartir también era una forma de estar juntos.",
     emoji: "🌎",
-    gradient: "blue"
-  },
-  {
-    id: "vacations",
-    type: "text",
-    title: "Las vacaciones nunca fueron solamente vacaciones.",
-    description: "Cada lugar bonito venía acompañado de un mensaje.\nDe una foto.\nDe una historia que contar.",
-    gradient: "gold",
-    animation: "fade"
-  },
-  {
-    id: "photos-share",
-    type: "highlight",
-    title: "Descubrimos algo.",
-    value: "Compartir también era una forma de viajar juntos.",
-    description: "Aunque el otro estuviera lejos.",
-    emoji: "📍",
-    gradient: "purple",
+    gradient: "blue",
     animation: "zoom"
   },
   {
-    id: "omelette",
+    id: "live-story",
+    type: "text",
+    title: "No esperábamos a vernos para contarnos las cosas.",
+    description: "Las vivíamos en tiempo real.\nUn mensaje.\nUna foto.\nUn 'mira esto'.",
+    gradient: "night",
+    animation: "fade"
+  },
+  {
+    id: "hotel",
     type: "quote",
-    title: "\"Con el omelette se pagó todo.\"",
-    value: "10/10",
-    description: "No era solamente comida.\nEra querer que el otro también estuviera ahí para probarla.",
-    gradient: "rose",
+    title: "\"Me tropecé...\"",
+    value: "\"Y caí en un hotelito.\"",
+    description: "Así comenzaban muchas de nuestras historias.",
+    gradient: "gold",
     animation: "typewriter"
   },
   {
-    id: "happy-place",
+    id: "omelette",
     type: "highlight",
-    title: "Todos tenemos un lugar feliz.",
-    value: "Y el nuestro casi siempre terminaba siendo compartido.",
-    description: "Porque un paisaje bonito siempre venía acompañado de un 'mira esto'.",
-    emoji: "️",
-    gradient: "gold",
+    title: "Un omelette",
+    value: "10/10",
+    description: "Fue suficiente para convertirse en parte de nuestro diccionario.",
+    emoji: "🍳",
+    gradient: "rose",
     animation: "parallax"
   },
   {
-    id: "inside-joke",
+    id: "share",
+    type: "text",
+    title: "Cada fotografía tenía el mismo propósito.",
+    description: "No era presumir.\nEra decir:\n'Ojalá estuvieras viendo esto conmigo.'",
+    gradient: "purple",
+    animation: "slideUp"
+  },
+  {
+    id: "without-you",
     type: "quote",
-    title: "\"Sin ti?\"",
+    title: "\"¿Sin ti?\"",
     value: "Dos palabras.",
-    description: "Pero suficientes para decir:\n'Ojalá estuvieras aquí.'",
+    description: "Y detrás de ellas, una invitación para el futuro.",
     gradient: "blue",
     animation: "fade"
   },
   {
-    id: "laughs",
-    type: "text",
-    title: "Incluso la distancia se llenó de risas.",
-    description: "Los chistes, los stickers y las bromas hicieron que ningún día se sintiera realmente lejos.",
-    gradient: "night",
-    animation: "slideUp"
+    id: "pool",
+    type: "highlight",
+    title: "Lugar feliz",
+    value: "Piscina con barra incluida.",
+    description: "Porque hasta los lugares terminaban teniendo nombre dentro de nuestra historia.",
+    emoji: "🏖️",
+    gradient: "gold",
+    animation: "zoom"
   },
   {
-    id: "presence",
-    type: "highlight",
-    title: "No compartíamos lugares.",
-    value: "Compartíamos momentos.",
-    description: "Y eso terminó siendo mucho más importante.",
-    emoji: "❤️",
+    id: "waterpolo",
+    type: "text",
+    title: "Mexicanos vs. gringos.",
+    description: "Un partido improvisado terminó convirtiéndose en otro recuerdo compartido.\nY, por supuesto...\n\"No tengo amigos perdedores.\"",
+    gradient: "night",
+    animation: "parallax"
+  },
+  {
+    id: "distance-final",
+    type: "text",
+    title: "Entendimos algo.",
+    description: "La distancia pesa menos cuando nunca dejas de incluir al otro en tu día.",
     gradient: "rose",
-    animation: "zoom"
+    animation: "fade"
   },
   {
     id: "distance-end",
     type: "ending",
-    title: "La distancia nunca ganó.",
-    subtitle: "Porque siempre encontramos la manera de estar presentes.",
+    title: "Porque compartir también es una forma de querer.",
+    subtitle: "Y nosotros lo hicimos todos los días.",
     gradient: "night"
   }
 ];
