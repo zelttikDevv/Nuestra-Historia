@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { wrapped, type WrappedSlide } from '@/content/wrapped';
+import { wrapped, chapterInterludes, type WrappedSlide } from '@/content/wrapped';
 import { SlideRenderer } from '@/components/SlideRenderer';
 
 const AUTO_ADVANCE_MS = 6000;
+const INTERLUDE_MS = 2500;
 
 const gradientMap: Record<WrappedSlide['gradient'], string> = {
   rose: 'linear-gradient(135deg, hsl(350 60% 75%) 0%, hsl(340 50% 60%) 100%)',
@@ -16,6 +17,44 @@ const gradientMap: Record<WrappedSlide['gradient'], string> = {
   gold: 'linear-gradient(135deg, hsl(45 80% 60%) 0%, hsl(30 70% 40%) 100%)',
   night: 'linear-gradient(135deg, hsl(240 30% 20%) 0%, hsl(260 20% 10%) 100%)',
 };
+
+// Detecta si un slide es portada de capítulo (cover y no es el primero)
+function isChapterCover(slide: WrappedSlide, index: number): boolean {
+  return slide.type === 'cover' && index > 0;
+}
+
+// Obtiene la frase de interludio correspondiente
+function getInterludePhrase(slideIndex: number): string {
+  // Contamos cuántos covers hemos pasado antes de este índice
+  let coverCount = 0;
+  for (let i = 1; i < slideIndex; i++) {
+    if (wrapped[i].type === 'cover') coverCount++;
+  }
+  return chapterInterludes[coverCount] ?? chapterInterludes[0];
+}
+
+function SlideProgressBar({ total, current, progress }: { total: number; current: number; progress: number }) {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 p-4 pt-6">
+      {Array.from({ length: total }).map((_, i) => (
+        <div
+          key={i}
+          className="h-[3px] flex-1 rounded-full bg-white/20 overflow-hidden"
+        >
+          {i < current && (
+            <div className="h-full w-full bg-white/90 rounded-full" />
+          )}
+          {i === current && (
+            <motion.div
+              className="h-full bg-white/90 rounded-full"
+              style={{ width: `${progress * 100}%` }}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const slideVariants = {
   enter: () => ({
@@ -51,42 +90,65 @@ export function WrappedView() {
   const [direction, setDirection] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [showInterlude, setShowInterlude] = useState(false);
+  const [interludePhrase, setInterludePhrase] = useState('');
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const progressRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(Date.now());
+  const interludeTimerRef = useRef<number | null>(null);
+  const pendingIndexRef = useRef<number | null>(null);
 
   const totalSlides = wrapped.length;
   const currentSlide = wrapped[currentIndex];
+  const isInterludeActive = showInterlude;
 
   const clearTimers = useCallback(() => {
     if (progressRef.current !== null) {
       cancelAnimationFrame(progressRef.current);
       progressRef.current = null;
     }
+    if (interludeTimerRef.current !== null) {
+      clearTimeout(interludeTimerRef.current);
+      interludeTimerRef.current = null;
+    }
   }, []);
+
+  const goToSlide = useCallback((index: number) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
+    setProgress(0);
+    startTimeRef.current = Date.now();
+  }, [currentIndex]);
 
   const goNext = useCallback(() => {
     if (currentIndex < totalSlides - 1) {
-      setDirection(1);
-      setCurrentIndex((prev) => prev + 1);
-      setProgress(0);
-      startTimeRef.current = Date.now();
+      const nextIndex = currentIndex + 1;
+      const nextSlide = wrapped[nextIndex];
+      
+      // Si el siguiente slide es portada de capítulo, mostrar interludio primero
+      if (isChapterCover(nextSlide, nextIndex)) {
+        pendingIndexRef.current = nextIndex;
+        setInterludePhrase(getInterludePhrase(nextIndex));
+        setShowInterlude(true);
+        setIsPlaying(false);
+        setProgress(0);
+      } else {
+        goToSlide(nextIndex);
+      }
     }
-  }, [currentIndex, totalSlides]);
+  }, [currentIndex, totalSlides, goToSlide]);
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
-      setDirection(-1);
-      setCurrentIndex((prev) => prev - 1);
-      setProgress(0);
-      startTimeRef.current = Date.now();
+      goToSlide(currentIndex - 1);
     }
-  }, [currentIndex]);
+  }, [currentIndex, goToSlide]);
 
+  // Auto-advance timer
   useEffect(() => {
     clearTimers();
-    if (!isPlaying) return;
+    if (!isPlaying || isInterludeActive) return;
 
     startTimeRef.current = Date.now();
 
@@ -108,10 +170,50 @@ export function WrappedView() {
 
     progressRef.current = requestAnimationFrame(tick);
     return clearTimers;
-  }, [currentIndex, isPlaying, totalSlides, goNext, clearTimers]);
+  }, [currentIndex, isPlaying, totalSlides, goNext, clearTimers, isInterludeActive]);
 
+  // Interlude auto-advance
+  useEffect(() => {
+    if (!showInterlude) return;
+
+    interludeTimerRef.current = window.setTimeout(() => {
+      if (pendingIndexRef.current !== null) {
+        setShowInterlude(false);
+        goToSlide(pendingIndexRef.current);
+        pendingIndexRef.current = null;
+        setIsPlaying(true);
+      }
+    }, INTERLUDE_MS);
+
+    return () => {
+      if (interludeTimerRef.current !== null) {
+        clearTimeout(interludeTimerRef.current);
+      }
+    };
+  }, [showInterlude, goToSlide]);
+
+  const skipInterlude = useCallback(() => {
+    if (interludeTimerRef.current !== null) {
+      clearTimeout(interludeTimerRef.current);
+    }
+    if (pendingIndexRef.current !== null) {
+      setShowInterlude(false);
+      goToSlide(pendingIndexRef.current);
+      pendingIndexRef.current = null;
+      setIsPlaying(true);
+    }
+  }, [goToSlide]);
+
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (showInterlude) {
+        if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter') {
+          e.preventDefault();
+          skipInterlude();
+        }
+        return;
+      }
       if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         goNext();
@@ -126,17 +228,22 @@ export function WrappedView() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [goNext, goPrev, router]);
+  }, [goNext, goPrev, router, showInterlude, skipInterlude]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
-    setIsPlaying(false);
+    if (!showInterlude) setIsPlaying(false);
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     const deltaX = touchStartX.current - e.changedTouches[0].clientX;
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+
+    if (showInterlude) {
+      skipInterlude();
+      return;
+    }
 
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
       if (deltaX > 0) goNext();
@@ -149,6 +256,10 @@ export function WrappedView() {
   };
 
   const handleTap = () => {
+    if (showInterlude) {
+      skipInterlude();
+      return;
+    }
     if (isPlaying) {
       setIsPlaying(false);
     } else {
@@ -201,26 +312,9 @@ export function WrappedView() {
       </AnimatePresence>
 
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex gap-1 p-4 pt-6">
-        {Array.from({ length: totalSlides }).map((_, i) => (
-          <div
-            key={i}
-            className="h-[3px] flex-1 rounded-full bg-white/20 overflow-hidden"
-          >
-            {i < currentIndex && (
-              <div className="h-full w-full bg-white/90 rounded-full" />
-            )}
-            {i === currentIndex && (
-              <motion.div
-                className="h-full bg-white/90 rounded-full"
-                style={{ width: `${progress * 100}%` }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+      <SlideProgressBar total={totalSlides} current={currentIndex} progress={progress} />
 
-      {/* Controls */}
+      {/* Back button */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -231,25 +325,29 @@ export function WrappedView() {
         <ArrowLeft className="w-5 h-5 text-white" />
       </button>
 
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          if (isPlaying) {
-            setIsPlaying(false);
-          } else {
-            startTimeRef.current = Date.now() - progress * AUTO_ADVANCE_MS;
-            setIsPlaying(true);
-          }
-        }}
-        className="fixed top-6 left-16 z-50 p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
-      >
-        {isPlaying ? (
-          <Pause className="w-4 h-4 text-white" />
-        ) : (
-          <Play className="w-4 h-4 text-white" />
-        )}
-      </button>
+      {/* Play/Pause button */}
+      {!showInterlude && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (isPlaying) {
+              setIsPlaying(false);
+            } else {
+              startTimeRef.current = Date.now() - progress * AUTO_ADVANCE_MS;
+              setIsPlaying(true);
+            }
+          }}
+          className="fixed top-6 left-16 z-50 p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
+        >
+          {isPlaying ? (
+            <Pause className="w-4 h-4 text-white" />
+          ) : (
+            <Play className="w-4 h-4 text-white" />
+          )}
+        </button>
+      )}
 
+      {/* Slide counter */}
       <div className="fixed top-7 right-6 z-50 text-white/60 text-sm font-light tabular-nums">
         {currentIndex + 1} / {totalSlides}
       </div>
@@ -271,7 +369,7 @@ export function WrappedView() {
       </AnimatePresence>
 
       {/* Navigation arrows (desktop) */}
-      {currentIndex > 0 && (
+      {!showInterlude && currentIndex > 0 && (
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -282,7 +380,7 @@ export function WrappedView() {
           <ChevronLeft className="w-6 h-6 text-white" />
         </button>
       )}
-      {currentIndex < totalSlides - 1 && (
+      {!showInterlude && currentIndex < totalSlides - 1 && (
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -294,7 +392,8 @@ export function WrappedView() {
         </button>
       )}
 
-      {currentIndex === 0 && (
+      {/* Tap hint on first slide */}
+      {currentIndex === 0 && !showInterlude && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -304,6 +403,62 @@ export function WrappedView() {
           Toca para pausar · Desliza para navegar
         </motion.div>
       )}
+
+      {/* Interlude overlay between chapters */}
+      <AnimatePresence>
+        {showInterlude && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            onClick={skipInterlude}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-8 cursor-pointer"
+          >
+            {/* Blurred background */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0"
+              style={{
+                background: gradientMap[currentSlide.gradient],
+                filter: 'blur(20px) brightness(0.7)',
+                transform: 'scale(1.1)',
+              }}
+            />
+            
+            {/* Vignette */}
+            <div className="absolute inset-0 bg-black/30" />
+
+            {/* Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 text-center max-w-lg"
+            >
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="text-2xl md:text-3xl font-light text-white/90 leading-relaxed italic"
+              >
+                &ldquo;{interludePhrase}&rdquo;
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 1.5 }}
+                className="mt-8 text-white/40 text-xs font-light"
+              >
+                Toca para continuar
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-                                       }
+    }
