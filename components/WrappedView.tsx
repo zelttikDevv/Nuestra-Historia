@@ -16,6 +16,10 @@ const gradientMap: Record<WrappedSlide['gradient'], string> = {
   blue: 'linear-gradient(135deg, hsl(220 60% 50%) 0%, hsl(200 50% 30%) 100%)',
   gold: 'linear-gradient(135deg, hsl(45 80% 60%) 0%, hsl(30 70% 40%) 100%)',
   night: 'linear-gradient(135deg, hsl(240 30% 20%) 0%, hsl(260 20% 10%) 100%)',
+  pink: 'linear-gradient(135deg, hsl(330 70% 75%) 0%, hsl(320 60% 60%) 100%)',
+  yellow: 'linear-gradient(135deg, hsl(50 90% 65%) 0%, hsl(40 80% 50%) 100%)',
+  green: 'linear-gradient(135deg, hsl(140 50% 55%) 0%, hsl(130 40% 40%) 100%)',
+  orange: 'linear-gradient(135deg, hsl(25 90% 60%) 0%, hsl(15 80% 45%) 100%)',
 };
 
 // Detecta si un slide es portada de capítulo (cover y no es el primero)
